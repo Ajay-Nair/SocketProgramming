@@ -19,7 +19,6 @@ print("Got connection from",addr)
 c.send("Thanks for connecting".encode())
 
 command = c.recv(1024).decode()
-print(command)
 
 if "create file" in command:
     x = command.split(" ")
@@ -42,9 +41,12 @@ if "append file" in command:
 if "read file" in command:
     x = command.split(" ")
     fn = x[2] 
-    f = open(fn,"r")
-    contents = f.read()
-    print(contents)
+    if os.path.exists(fn):
+        f = open(fn,"r")
+        contents = f.read()
+        c.send(contents.encode())
+    else:
+        c.send("File does not exist".encode())
     f.close()
 
 if "delete file" in command:
@@ -53,6 +55,6 @@ if "delete file" in command:
     if os.path.exists(fn):
         os.remove(fn)
     else:
-        print("File does not exist")
+        c.send("File does not exist".encode())
 
 c.close()
