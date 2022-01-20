@@ -18,6 +18,9 @@ print(t)
 print("Enter command:")
 command = input()
 s.send(command.encode())
+t = s.recv(1024).decode()
+print(t)
+
 # close the connection
 s.close()    
      

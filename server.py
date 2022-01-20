@@ -1,5 +1,6 @@
 import os
 import socket
+from pathlib import Path
 
 s=socket.socket() #Created a socket
 print("Socket Created Successfully")
@@ -22,12 +23,17 @@ print(command)
 
 if "create file" in command:
     x = command.split(" ")
-    fn = x[2] + ".txt"
-    f = open(fn,"w+")
-    f.close()
+    fn = x[2]
+    path = Path(fn)
+    if(path.is_file()):
+        c.send("File Exists".encode())
+    else:
+        f = open(fn,"w+")
+        f.close()
+        c.send("File Created".encode())
 if "append file" in command:
     x = command.split(" ")
-    fn = x[2] + ".txt"
+    fn = x[2] 
     print("Enter Text")
     des = input()
     f = open(fn,"w+")
@@ -35,7 +41,7 @@ if "append file" in command:
     f.close()
 if "read file" in command:
     x = command.split(" ")
-    fn = x[2] + ".txt"
+    fn = x[2] 
     f = open(fn,"r")
     contents = f.read()
     print(contents)
@@ -43,7 +49,7 @@ if "read file" in command:
 
 if "delete file" in command:
     x = command.split(" ")
-    fn = x[2] + ".txt"
+    fn = x[2] 
     if os.path.exists(fn):
         os.remove(fn)
     else:
