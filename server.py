@@ -33,10 +33,11 @@ if "create file" in command:
 if "append file" in command:
     x = command.split(" ")
     fn = x[2] 
-    print("Enter Text")
-    des = input()
+    c.send("Enter Text".encode())
+    content = c.recv(1024).decode()
     f = open(fn,"w+")
-    f.write(des)
+    f.write(content)
+    c.send("Append successfull".encode())
     f.close()
 if "read file" in command:
     x = command.split(" ")
