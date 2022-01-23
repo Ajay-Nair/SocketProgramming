@@ -14,15 +14,18 @@ s.connect(('127.0.0.1', port))
 # receive data from the server and decoding to get the string.
 t = s.recv(1024).decode()
 print(t)
-
-print("Enter command:")
-command = input()
-s.send(command.encode())
-t = s.recv(1024).decode()
-print(t)
-if "Enter Text" == t:
-    content = input()
-    s.send(content.encode())
+while(True):
+    print("Enter command:")
+    command = input()
+    s.send(command.encode())
+    if "exit" in command:
+        break
+    t = s.recv(1024).decode()
+    print(t)
+    if "Enter Text" == t:
+        content = input()
+        s.send(content.encode())
+    
 # close the connection
 s.close()    
      
